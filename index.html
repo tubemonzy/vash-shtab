@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="ВАШ ШТАБ" />
+<meta name="theme-color" content="#F4F6F9" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23111827'/%3E%3Ctext x='32' y='44' text-anchor='middle' fill='%23FFFFFF' font-family='Arial,sans-serif' font-size='34' font-weight='900'%3E%D0%A8%3C/text%3E%3C/svg%3E" />
+<title>ВАШ ШТАБ — Понятный контроль техники и денег</title>
+<style>
+:root, [data-theme="light"] {
+  --bg: #F2F4F7;
+  --card: #FFFFFF;
+  --card2: #F7F8FA;
+  --bd: #E5E9F0;
+  --tx: #111827;
+  --mu: #64748B;
+  --mu2: #94A3B8;
+  --or: #F97316;
+  --or-s: #FFF3EB;
+  --gr: #16A34A;
+  --gr-s: #ECFDF3;
+  --yl: #D97706;
+  --yl-s: #FFFBEB;
+  --rd: #DC2626;
+  --rd-s: #FEF2F2;
+  --bl: #2563EB;
+  --bl-s: #EFF6FF;
+  --shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 18px 45px rgba(15, 23, 42, 0.16);
+  --tank-bg: #E8EDF4;
+  --scrim: rgba(15, 23, 42, 0.45);
+}
+[data-theme="dark"] {
+  --bg: #0D1015;
+  --card: #161B23;
+  --card2: #1E242E;
+  --bd: #28303E;
+  --tx: #F3F6FA;
+  --mu: #94A3B8;
+  --mu2: #64748B;
+  --or: #FF7828;
+  --or-s: rgba(255, 120, 40, 0.14);
+  --gr: #22C55E;
+  --gr-s: rgba(34, 197, 94, 0.13);
+  --yl: #F59E0B;
+  --yl-s: rgba(245, 158, 11, 0.14);
+  --rd: #EF4444;
+  --rd-s: rgba(239, 68, 68, 0.14);
+  --bl: #60A5FA;
+  --bl-s: rgba(96, 165, 250, 0.14);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --tank-bg: #0D1015;
+  --scrim: rgba(0, 0, 0, 0.65);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100%; background: var(--bg); color: var(--tx);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased;
+  transition: background .2s, color .2s;
+}
+.num { font-variant-numeric: tabular-nums; }
+svg.ico { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* LAYOUT */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 14px 16px calc(92px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; }
+
+/* TOP HEADER */
+.hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 4px 0; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-ic { width: 38px; height: 38px; border-radius: 12px; background: var(--tx); color: var(--bg); display: grid; place-items: center; font-weight: 900; font-size: 16px; }
+.brand-t { font-size: 18px; font-weight: 800; letter-spacing: -.3px; line-height: 1.1; }
+.brand-s { font-size: 12px; color: var(--mu); }
+.hdr-right { display: flex; align-items: center; gap: 8px; }
+
+.pill-btn {
+  height: 38px; padding: 0 13px; border-radius: 12px; border: 1px solid var(--bd); background: var(--card);
+  color: var(--tx); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 7px; box-shadow: var(--shadow); transition: all .15s;
+}
+.pill-btn:hover { border-color: var(--or); }
+.pill-btn.pri { background: var(--tx); color: var(--bg); border-color: var(--tx); }
+
+/* TOP DESKTOP NAV */
+.top-nav { display: flex; gap: 6px; background: var(--card); border: 1px solid var(--bd); border-radius: 14px; padding: 5px; box-shadow: var(--shadow); }
+.top-nav button {
+  flex: 1; height: 40px; border: none; border-radius: 10px; background: transparent; color: var(--mu);
+  font-size: 13.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: all .15s;
+}
+.top-nav button.on { background: var(--tx); color: var(--bg); }
+.top-nav button .cnt { font-size: 11px; padding: 1px 7px; border-radius: 99px; background: var(--rd); color: #fff; font-weight: 800; }
+
+/* CARDS */
+.card { background: var(--card); border: 1px solid var(--bd); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+.sec-title { font-size: 16px; font-weight: 800; letter-spacing: -.2px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sec-title small { font-size: 12px; font-weight: 600; color: var(--mu); }
+
+/* WALLET HERO (Like T-Bank / Apple Wallet!) */
+.wallet {
+  background: linear-gradient(135deg, #161B26 0%, #222938 100%);
+  color: #fff; border-radius: 22px; padding: 20px 22px; box-shadow: 0 12px 30px rgba(15,23,42,.18);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.wallet-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.wallet-lbl { font-size: 13px; color: #A1AEBE; font-weight: 600; }
+.wallet-sum { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.08; margin-top: 4px; }
+.wallet-sub { font-size: 13px; color: #C6D0DC; margin-top: 5px; }
+.wallet-sub b { color: #fff; }
+
+.traffic-lights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tl-pill {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 14px;
+  padding: 11px 13px; cursor: pointer; transition: background .15s; text-align: left; color: #fff; font-family: inherit;
+}
+.tl-pill:hover { background: rgba(255,255,255,.12); }
+.tl-pill.on { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.45); }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.tl-n { font-size: 20px; font-weight: 800; margin-top: 3px; }
+.tl-l { font-size: 12px; color: #B8C4D4; }
+
+/* CLASS FILTER CHIPS */
+.cls-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.cls-row::-webkit-scrollbar { display: none; }
+.cls-b {
+  flex: none; height: 42px; padding: 0 15px; border-radius: 14px; border: 1px solid var(--bd);
+  background: var(--card); color: var(--tx); font-size: 13px; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px; font-family: inherit; box-shadow: var(--shadow); transition: all .14s;
+}
+.cls-b.on { background: var(--or); border-color: var(--or); color: #fff; }
+.cls-b span.n { font-size: 11.5px; opacity: .75; }
+
+/* PROBLEMS LIST (Human language!) */
+.prob-list { display: flex; flex-direction: column; gap: 10px; }
+.prob-item {
+  display: flex; align-items: center; gap: 13px; padding: 14px 15px; border-radius: 16px;
+  border: 1px solid var(--bd); background: var(--card2); cursor: pointer; transition: transform .12s, border-color .15s;
+}
+.prob-item:hover { border-color: var(--or); transform: translateY(-1px); }
+.prob-item.red { background: var(--rd-s); border-color: rgba(220,38,38,.25); }
+.prob-item.yel { background: var(--yl-s); border-color: rgba(217,119,6,.25); }
+.prob-ic { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; flex: none; }
+.prob-ic.red { background: var(--rd); color: #fff; }
+.prob-ic.yel { background: var(--yl); color: #fff; }
+.prob-main { flex: 1; min-width: 0; }
+.prob-h { font-size: 14.5px; font-weight: 800; line-height: 1.25; }
+.prob-p { font-size: 12.5px; color: var(--mu); margin-top: 2px; }
+.prob-rub { font-size: 15px; font-weight: 800; color: var(--rd); white-space: nowrap; text-align: right; }
+.prob-rub small { display: block; font-size: 11px; color: var(--mu); font-weight: 600; }
+
+/* MACHINE CARDS GRID (Native Tank + Clear Hours + Wallet Check!) */
+.m-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.m-card {
+  background: var(--card); border: 1px solid var(--bd); border-radius: 20px; padding: 16px;
+  cursor: pointer; transition: all .15s; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 13px;
+}
+.m-card:hover { border-color: var(--or); transform: translateY(-2px); }
+.m-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.m-title { font-size: 15px; font-weight: 800; line-height: 1.2; }
+.m-sub { font-size: 12px; color: var(--mu); margin-top: 2px; }
+.m-badge { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+.mb-gr { background: var(--gr-s); color: var(--gr); }
+.mb-yl { background: var(--yl-s); color: var(--yl); }
+.mb-rd { background: var(--rd-s); color: var(--rd); }
+
+/* VISUAL FUEL TANK + WORK DAY ROW */
+.m-mid { display: flex; align-items: center; gap: 14px; background: var(--card2); border-radius: 14px; padding: 11px 13px; }
+
+/* NATIVE FUEL TANK (real tank silhouette with cap, gauge lines, sliv red slice!) */
+.tank-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none; }
+.tank-cap { width: 14px; height: 5px; border-radius: 3px 3px 0 0; background: var(--mu2); }
+.tank {
+  width: 44px; height: 64px; border-radius: 10px; border: 2px solid var(--mu2);
+  background: var(--tank-bg); position: relative; overflow: hidden;
+}
+.tank-liq { position: absolute; left: 0; right: 0; bottom: 0; transition: height .3s; }
+.tank-sliv {
+  position: absolute; left: 0; right: 0; background: repeating-linear-gradient(45deg, #EF4444, #EF4444 4px, #FCA5A5 4px, #FCA5A5 8px);
+  border-top: 1.5px dashed #fff; border-bottom: 1.5px dashed #fff;
+}
+.tank-mark { position: absolute; right: 3px; width: 7px; height: 1.5px; background: rgba(100,116,139,.45); }
+.tank-lbl { font-size: 11px; font-weight: 800; color: var(--tx); }
+
+.day-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.day-line { font-size: 12.5px; display: flex; justify-content: space-between; gap: 6px; }
+.day-line span { color: var(--mu); }
+.day-strip { height: 10px; border-radius: 99px; background: var(--tank-bg); display: flex; overflow: hidden; }
+.ds-w { background: var(--gr); } .ds-i { background: var(--yl); } .ds-o { background: var(--mu2); } .ds-d { background: var(--rd); }
+
+.m-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--bd); }
+.m-foot-l { font-size: 12px; color: var(--mu); }
+.m-foot-r { font-size: 17px; font-weight: 900; }
+
+/* DETAIL SHEET (Native iOS Bottom Sheet / Modal) */
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 60; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.scrim.open { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed; right: 16px; top: 16px; bottom: 16px; width: 440px; max-width: calc(100vw - 32px); z-index: 70;
+  background: var(--card); border: 1px solid var(--bd); border-radius: 24px; box-shadow: var(--shadow-lg);
+  transform: translateX(115%); transition: transform .25s cubic-bezier(.22,1,.36,1);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sheet.open { transform: translateX(0); }
+.sheet-h { padding: 18px 20px; border-bottom: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.sheet-b { flex: 1; overflow-y: auto; padding: 18px 20px 26px; display: flex; flex-direction: column; gap: 14px; }
+.x-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--card2); color: var(--tx); cursor: pointer; display: grid; place-items: center; font-size: 18px; }
+
+.receipt { background: var(--card2); border-radius: 16px; padding: 14px 16px; }
+.r-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--bd); font-size: 13.5px; }
+.r-row:last-child { border-bottom: none; }
+.r-row.tot { border-top: 2px solid var(--bd); border-bottom: none; margin-top: 4px; padding-top: 10px; font-size: 16px; font-weight: 900; }
+
+/* SIMPLE MAP */
+.s-map { background: var(--card2); border: 1px solid var(--bd); border-radius: 18px; overflow: hidden; }
+.s-map svg { width: 100%; height: 380px; display: block; }
+
+/* PRICES */
+.price-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--bd); }
+.price-row:last-child { border-bottom: none; }
+.price-inp {
+  width: 112px; height: 42px; text-align: right; font-size: 16px; font-weight: 800; border-radius: 12px;
+  border: 1.5px solid var(--bd); background: var(--card2); color: var(--tx); padding: 0 12px; font-family: inherit;
+}
+.price-inp:focus { outline: none; border-color: var(--or); }
+
+/* TELEGRAM */
+.tg-card { max-width: 420px; margin: 0 auto; background: var(--card); border: 1px solid var(--bd); border-radius: 26px; padding: 16px; box-shadow: var(--shadow-lg); }
+.tg-msg { background: var(--card2); border-radius: 16px; border-top-left-radius: 4px; padding: 14px; white-space: pre-wrap; font-size: 13px; line-height: 1.55; }
+.tg-me { margin-left: auto; max-width: 82%; background: var(--or); color: #fff; font-weight: 700; border-radius: 16px; border-top-right-radius: 4px; padding: 8px 13px; font-size: 12.5px; }
+
+/* IPHONE BOTTOM NAV */
+.mob-nav {
+  display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  background: var(--card); border-top: 1px solid var(--bd);
+  padding: 7px 10px calc(7px + env(safe-area-inset-bottom, 0px));
+  grid-template-columns: repeat(4, 1fr); gap: 6px;
+}
+.mob-nav button {
+  min-height: 48px; border: none; border-radius: 12px; background: transparent; color: var(--mu);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+.mob-nav button.on { background: var(--or-s); color: var(--or); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 86px; transform: translateX(-50%) translateY(8px);
+  background: var(--tx); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-size: 13px; font-weight: 700;
+  z-index: 95; opacity: 0; pointer-events: none; transition: all .2s;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 820px) {
+  .top-nav { display: none; }
+  .mob-nav { display: grid; }
+  .m-grid { grid-template-columns: 1fr; }
+  .traffic-lights { grid-template-columns: 1fr; }
+  .wallet-sum { font-size: 30px; }
+  .sheet {
+    top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 86vh;
+    border-radius: 24px 24px 0 0; transform: translateY(100%);
+  }
+  .sheet.open { transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="brand">
+      <div class="brand-ic">Ш</div>
+      <div>
+        <div class="brand-t">ВАШ ШТАБ</div>
+        <div class="brand-s">Техника и деньги простым языком · Gelios подключён</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <button class="pill-btn" onclick="toggleTheme()" id="th-btn">Ночной вид</button>
+      <button class="pill-btn pri" onclick="exportCsv()">Скачать список</button>
+    </div>
+  </header>
+
+  <!-- DESKTOP NAV -->
+  <nav class="top-nav">
+    <button class="on" id="tn-home" onclick="go('home')">Сегодня <span class="cnt" id="cnt-p">4</span></button>
+    <button id="tn-map" onclick="go('map')">Где машины</button>
+    <button id="tn-prices" onclick="go('prices')">Наши цены</button>
+    <button id="tn-tg" onclick="go('tg')">Утро в Telegram</button>
+  </nav>
+
+  <main id="root" style="display:flex;flex-direction:column;gap:16px"></main>
+</div>
+
+<!-- IPHONE BOTTOM BAR -->
+<nav class="mob-nav">
+  <button class="on" id="mn-home" onclick="go('home')">
+    <svg class="ico" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+    Сегодня
+  </button>
+  <button id="mn-map" onclick="go('map')">
+    <svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    Где машины
+  </button>
+  <button id="mn-prices" onclick="go('prices')">
+    <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 8h4a2.5 2.5 0 0 1 0 5h-4v4m0-4h4.5"/></svg>
+    Цены
+  </button>
+  <button id="mn-tg" onclick="go('tg')">
+    <svg class="ico" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    Telegram
+  </button>
+</nav>
+
+<!-- DETAIL SHEET -->
+<div class="scrim" id="scrim" onclick="closeSheet()"></div>
+<aside class="sheet" id="sheet">
+  <div class="sheet-h">
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--or)" id="sh-cls">—</div>
+      <div style="font-size:18px;font-weight:900;margin-top:2px" id="sh-name">—</div>
+      <div style="font-size:12.5px;color:var(--mu)" id="sh-sub">—</div>
+    </div>
+    <button class="x-btn" onclick="closeSheet()" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="sheet-b" id="sh-body"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const RATES = { diesel: 70, dumpTon: 185, excHour: 4600, craneHour: 3200, forestM3: 1150 };
+
+const CLS_NAME = { all:'Вся техника', dump:'Самосвалы', exc:'Экскаваторы', crane:'Манипуляторы', forest:'Лесники' };
+
+// Машины простым человеческим языком (без терминов!)
+const MACHINES = [
+  {
+    id:'17', cls:'dump', name:'Самосвал SHACMAN №17', plate:'С 774 КО 42', driver:'Шубин Лёша', place:'Рембаза',
+    level:'red', status:'Слили 85 л солярки ночью',
+    workH:2.5, idleH:1.0, offH:0, downH:8.5,
+    tankCap:500, tankNow:95, burnedL:200, slivL:85,
+    doneText:'5 рейсов (118 т)', qty:118, fix:18000, wage:2100, rep:85000,
+    problem:'В 03:14 ночи уровень в баке резко упал на 85 литров (промзона). Потом сломалась коробка, ушёл на рембазу.',
+    mx:750, my:300
+  },
+  {
+    id:'Л-02', cls:'forest', name:'Лесовоз КАМАЗ №02', plate:'Е 219 МТ 42', driver:'Бобров Женя', place:'Деляна №4 (Тайга)',
+    level:'red', status:'Слили 65 л в тайге на деляне',
+    workH:5.4, idleH:2.2, offH:4.4, downH:0,
+    tankCap:500, tankNow:115, burnedL:247, slivL:65,
+    doneText:'1 рейс с деляны (28 кубов)', qty:28, fix:13500, wage:4500, rep:0,
+    problem:'В тайге 4 часа не было связи. Когда машина выехала на базу, прибор выгрузил запись: на деляне слили 65 л солярки.',
+    mx:715, my:125
+  },
+  {
+    id:'М-04', cls:'crane', name:'Манипулятор Hino 7т', plate:'О 774 НА 154', driver:'Киселёв Рома', place:'Чужая промзона',
+    level:'red', status:'Похоже на левую подработку',
+    workH:4.0, idleH:2.5, offH:0, downH:5.5,
+    tankCap:250, tankNow:110, burnedL:134, slivL:0,
+    doneText:'2 заявки (4 часа работы)', qty:4.0, fix:8500, wage:5400, rep:0,
+    problem:'С 14:20 до 16:50 машина уехала со стройки в промзону и 2,5 часа крутила стрелой на чужом участке. В заявках этого адреса не было.',
+    mx:570, my:250
+  },
+  {
+    id:'Э-03', cls:'exc', name:'Экскаватор Komatsu PC300', plate:'ТМ 7820 142', driver:'Зотов Андрей', place:'Стройка «Южная»',
+    level:'yel', status:'5 часов молотил впустую',
+    workH:6.1, idleH:5.2, offH:0, downH:0.7,
+    tankCap:600, tankNow:210, burnedL:264, slivL:0,
+    doneText:'6,1 часа реальной копки', qty:6.1, fix:15500, wage:8500, rep:0,
+    problem:'Мотор тарахтел почти всю смену (11,3 часа), но ковшом реально работал только 6 часов. За 5 часов на холостых сжёг 69 л солярки просто в небо.',
+    mx:445, my:295
+  },
+  {
+    id:'06', cls:'dump', name:'Самосвал HOWO №06', plate:'Х 418 ТМ 142', driver:'Мухин Серёга', place:'Карьер «Восточный»',
+    level:'yel', status:'3,8 ч простоял в очереди',
+    workH:7.4, idleH:3.8, offH:0, downH:0.8,
+    tankCap:400, tankNow:165, burnedL:394, slivL:0,
+    doneText:'16 рейсов (386 т)', qty:386, fix:18000, wage:6720, rep:0,
+    problem:'Долго ждал погрузки у экскаватора с заведённым мотором. Из-за очереди не успел сделать ещё 4 рейса.',
+    mx:260, my:220
+  },
+  {
+    id:'01', cls:'dump', name:'Самосвал SHACMAN №01', plate:'Е 805 РН 142', driver:'Ковалёв Дима', place:'Карьер «Северный»',
+    level:'gr', status:'Всё ровно · молодец',
+    workH:10.4, idleH:1.1, offH:0, downH:0.5,
+    tankCap:500, tankNow:340, burnedL:362, slivL:0,
+    doneText:'23 рейса (572 т)', qty:572, fix:18000, wage:9660, rep:0,
+    problem:'',
+    mx:185, my:145
+  },
+  {
+    id:'Э-01', cls:'exc', name:'Экскаватор CAT 320', plate:'ТМ 4412 42', driver:'Громов Витя', place:'Карьер «Северный»',
+    level:'gr', status:'Пахал всю смену',
+    workH:10.6, idleH:1.4, offH:0, downH:0,
+    tankCap:410, tankNow:305, burnedL:218, slivL:0,
+    doneText:'10,6 ч копки', qty:10.6, fix:14000, wage:8500, rep:0,
+    problem:'',
+    mx:140, my:115
+  },
+  {
+    id:'М-02', cls:'crane', name:'Манипулятор КАМАЗ КМУ', plate:'В 312 КХ 154', driver:'Смирнов Паша', place:'Стройка «Южная»',
+    level:'gr', status:'Отработал 3 заявки',
+    workH:8.5, idleH:1.5, offH:0, downH:2.0,
+    tankCap:350, tankNow:250, burnedL:118, slivL:0,
+    doneText:'8,5 ч работы (3 адреса)', qty:8.5, fix:9500, wage:6200, rep:0,
+    problem:'',
+    mx:495, my:270
+  },
+  {
+    id:'Л-01', cls:'forest', name:'Лесовоз Урал с КМУ', plate:'А 640 ЛС 42', driver:'Таёжный Миша', place:'Деляна №4 → Склад',
+    level:'gr', status:'2 ходки из тайги · ровно',
+    workH:7.2, idleH:1.2, offH:3.6, downH:0,
+    tankCap:420, tankNow:250, burnedL:248, slivL:0,
+    doneText:'2 ходки (54 куба леса)', qty:54, fix:13500, wage:7800, rep:0,
+    problem:'',
+    mx:645, my:100
+  },
+  {
+    id:'Л-03', cls:'forest', name:'Харвестер Ponsse', plate:'ЛХ 0912 42', driver:'Коршунов Коля', place:'Деляна №4 (Тайга)',
+    level:'gr', status:'Навалил 112 кубов',
+    workH:9.2, idleH:0.8, offH:2.0, downH:0,
+    tankCap:450, tankNow:290, burnedL:265, slivL:0,
+    doneText:'112 кубов заготовки', qty:112, fix:26000, wage:11500, rep:0,
+    problem:'',
+    mx:760, my:85
+  }
+];
+
+let TAB = 'home';
+let CLS = 'all';
+let LIGHT_FILT = 'all'; // all | gr | yel | red
+let TG_EXTRA = '';
+
+const f = (n, d=0) => Number(n||0).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d}).replace(/\u202f/g,' ');
+function toast(m){ const e=document.getElementById('toast'); e.textContent=m; e.classList.add('show'); setTimeout(()=>e.classList.remove('show'),2400); }
+
+function calc(m) {
+  let rev = 0;
+  if (m.cls==='dump') rev = m.qty * RATES.dumpTon;
+  else if (m.cls==='exc') rev = m.qty * RATES.excHour;
+  else if (m.cls==='crane') rev = m.qty * RATES.craneHour;
+  else rev = m.qty * (m.id==='Л-03' ? RATES.forestM3*0.65 : RATES.forestM3);
+
+  const totalFuelL = m.burnedL + m.slivL;
+  const fuelRub = totalFuelL * RATES.diesel;
+  const slivRub = m.slivL * RATES.diesel;
+  const profit = rev - fuelRub - m.wage - m.fix - m.rep;
+  const tankPct = Math.round(m.tankNow / m.tankCap * 100);
+  const slivPct = Math.round(m.slivL / m.tankCap * 100);
+  return { rev, totalFuelL, fuelRub, slivRub, profit, tankPct, slivPct };
+}
+
+function toggleTheme() {
+  const h = document.documentElement;
+  const next = h.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  h.setAttribute('data-theme', next);
+  document.getElementById('th-btn').textContent = next === 'light' ? 'Ночной вид' : 'Дневной вид';
+}
+
+function go(tab) {
+  TAB = tab;
+  ['home','map','prices','tg'].forEach(k => {
+    const t=document.getElementById('tn-'+k), m=document.getElementById('mn-'+k);
+    if (t) t.classList.toggle('on', k===tab);
+    if (m) m.classList.toggle('on', k===tab);
+  });
+  render();
+  window.scrollTo({ top:0, behavior:'instant' });
+}
+
+function fuelTankHtml(m, c, big=false) {
+  const w = big ? 58 : 44, h = big ? 84 : 64;
+  const liqColor = m.slivL > 0 ? '#F97316' : (c.tankPct < 30 ? '#EF4444' : '#F59E0B');
+  const slivBottom = Math.min(92, c.tankPct);
+  const slivH = Math.min(100 - slivBottom, Math.max(c.slivPct, 14));
+  return `<div class="tank-wrap">
+    <div class="tank-cap"></div>
+    <div class="tank" style="width:${w}px;height:${h}px">
+      <div class="tank-liq" style="height:${c.tankPct}%;background:linear-gradient(180deg, #FBBF24, ${liqColor})"></div>
+      ${m.slivL > 0 ? `<div class="tank-sliv" style="bottom:${slivBottom}%;height:${slivH}%" title="Слили ${m.slivL} л"></div>` : ''}
+      <div class="tank-mark" style="top:25%"></div>
+      <div class="tank-mark" style="top:50%"></div>
+      <div class="tank-mark" style="top:75%"></div>
+    </div>
+    <div class="tank-lbl num">${m.tankNow} л</div>
+  </div>`;
+}
+
+function openSheet(id) {
+  const m = MACHINES.find(x=>x.id===id); if (!m) return;
+  const c = calc(m);
+  document.getElementById('sh-cls').textContent = `${CLS_NAME[m.cls].toUpperCase()} · ${m.plate}`;
+  document.getElementById('sh-name').textContent = m.name;
+  document.getElementById('sh-sub').textContent = `За рулём: ${m.driver} · Сейчас: ${m.place}`;
+
+  document.getElementById('sh-body').innerHTML = `
+    ${m.problem ? `<div style="padding:14px 16px;border-radius:16px;background:${m.level==='red'?'var(--rd-s)':'var(--yl-s)'};border:1px solid ${m.level==='red'?'rgba(220,38,38,.3)':'rgba(217,119,6,.3)'}">
+      <div style="font-weight:800;font-size:14.5px;color:${m.level==='red'?'var(--rd)':'var(--yl)'}">${m.status}</div>
+      <div style="font-size:13px;margin-top:5px;line-height:1.5">${m.problem}</div>
+    </div>` : `<div style="padding:12px 15px;border-radius:14px;background:var(--gr-s);color:var(--gr);font-weight:800">${m.status} — замечаний за смену нет</div>`}
+
+    <!-- НАГЛЯДНЫЙ БАК С СОЛЯРКОЙ -->
+    <div class="receipt" style="display:flex;align-items:center;gap:16px">
+      ${fuelTankHtml(m, c, true)}
+      <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+        <div style="font-weight:800;font-size:14px">Топливо в баке</div>
+        <div class="day-line"><span>Сейчас в баке</span><b class="num">${m.tankNow} из ${m.tankCap} л (${c.tankPct}%)</b></div>
+        <div class="day-line"><span>Сжёг за работу</span><b class="num">${m.burnedL} л</b></div>
+        ${m.slivL > 0 ? `<div class="day-line"><span style="color:var(--rd);font-weight:700">СЛИЛИ ИЗ БАКА</span><b class="num" style="color:var(--rd)">−${m.slivL} л (−${f(c.slivRub)} ₽)</b></div>` : `<div style="font-size:12px;color:var(--gr);font-weight:700">Сливов не было</div>`}
+      </div>
+    </div>
+
+    <!-- ПОНЯТНЫЕ ЧАСЫ РАБОТЫ -->
+    <div class="receipt">
+      <div style="font-weight:800;font-size:14px;margin-bottom:8px">Как прошла смена (12 часов)</div>
+      <div class="day-strip" style="height:14px;margin-bottom:10px">
+        <div class="ds-w" style="width:${(m.workH/12*100).toFixed(1)}%"></div>
+        <div class="ds-i" style="width:${(m.idleH/12*100).toFixed(1)}%"></div>
+        <div class="ds-o" style="width:${(m.offH/12*100).toFixed(1)}%"></div>
+        <div class="ds-d" style="width:${(m.downH/12*100).toFixed(1)}%"></div>
+      </div>
+      <div class="day-line"><span>Реально работал</span><b style="color:var(--gr)">${f(m.workH,1)} ч (${m.doneText})</b></div>
+      <div class="day-line"><span>Стоял заведённый (впустую)</span><b style="color:${m.idleH>=2.5?'var(--yl)':'var(--tx)'}">${f(m.idleH,1)} ч</b></div>
+      ${m.offH > 0 ? `<div class="day-line"><span>В тайге без связи</span><b>${f(m.offH,1)} ч (запись пришла вечером)</b></div>` : ''}
+      ${m.downH > 0 ? `<div class="day-line"><span>Ремонт / простой</span><b style="color:var(--rd)">${f(m.downH,1)} ч</b></div>` : ''}
+    </div>
+
+    <!-- ПРОСТОЙ БАНКОВСКИЙ ЧЕК ДЕНЕГ -->
+    <div class="receipt num">
+      <div style="font-weight:800;font-size:14px;margin-bottom:6px">Деньги этой машины за вчера</div>
+      <div class="r-row"><span style="color:var(--mu)">Заработал (${m.doneText})</span><b style="color:var(--gr)">+${f(c.rev)} ₽</b></div>
+      <div class="r-row"><span style="color:var(--mu)">Ушло на солярку (${c.totalFuelL} л)</span><span>−${f(c.fuelRub)} ₽</span></div>
+      <div class="r-row"><span style="color:var(--mu)">Зарплата (${m.driver})</span><span>−${f(m.wage)} ₽</span></div>
+      <div class="r-row"><span style="color:var(--mu)">Лизинг, налоги, база</span><span>−${f(m.fix)} ₽</span></div>
+      ${m.rep > 0 ? `<div class="r-row"><span style="color:var(--rd)">Ремонт</span><b style="color:var(--rd)">−${f(m.rep)} ₽</b></div>` : ''}
+      <div class="r-row tot"><span>Осталось в кармане</span><span style="color:${c.profit>=0?'var(--gr)':'var(--rd)'}">${c.profit>=0?'+':'−'}${f(Math.abs(c.profit))} ₽</span></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="pill-btn" style="justify-content:center;height:44px" onclick="closeSheet();go('map')">Показать на карте</button>
+      <button class="pill-btn pri" style="justify-content:center;height:44px" onclick="toast('Вызов водителю: ${m.driver}')">Позвонить водителю</button>
+    </div>
+  `;
+  document.getElementById('scrim').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+function closeSheet() {
+  document.getElementById('scrim').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+}
+
+function render() {
+  const root = document.getElementById('root');
+  const byCls = CLS === 'all' ? MACHINES : MACHINES.filter(m => m.cls === CLS);
+  const vis = LIGHT_FILT === 'all' ? byCls : byCls.filter(m => m.level === LIGHT_FILT);
+
+  let totRev=0, totOut=0, totProf=0, cGr=0, cYel=0, cRed=0;
+  byCls.forEach(m => {
+    const c = calc(m);
+    totRev += c.rev; totProf += c.profit; totOut += (c.rev - c.profit);
+    if (m.level==='gr') cGr++; else if (m.level==='yel') cYel++; else cRed++;
+  });
+  const probs = byCls.filter(m => m.level !== 'gr');
+  document.getElementById('cnt-p').textContent = MACHINES.filter(m => m.level !== 'gr').length;
+
+  if (TAB === 'home') {
+    const counts = { all:MACHINES.length, dump:0, exc:0, crane:0, forest:0 };
+    MACHINES.forEach(m => counts[m.cls]++);
+
+    root.innerHTML = `
+      <!-- КЛАССЫ ТЕХНИКИ -->
+      <div class="cls-row">
+        ${Object.keys(CLS_NAME).map(k => `<button class="cls-b ${CLS===k?'on':''}" onclick="CLS='${k}';LIGHT_FILT='all';render()">${CLS_NAME[k]} <span class="n">${counts[k]}</span></button>`).join('')}
+      </div>
+
+      <!-- ГЛАВНЫЙ КОШЕЛЁК (КАК В БАНКЕ) -->
+      <div class="wallet">
+        <div class="wallet-top">
+          <div>
+            <div class="wallet-lbl">Вчера осталось чистыми в кармане (${CLS_NAME[CLS].toLowerCase()})</div>
+            <div class="wallet-sum num" style="color:${totProf>=0?'#4ADE80':'#F87171'}">${totProf>=0?'+':'−'}${f(Math.abs(totProf))} ₽</div>
+            <div class="wallet-sub num">Пришло от заказчиков <b>${f(totRev)} ₽</b> · ушло на солярку, людей и ремонт <b>${f(totOut)} ₽</b></div>
+          </div>
+          <span style="padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.1);font-size:12px;font-weight:700">20 ноября · смена закрыта</span>
+        </div>
+
+        <div class="traffic-lights">
+          <button class="tl-pill ${LIGHT_FILT==='gr'?'on':''}" onclick="LIGHT_FILT=LIGHT_FILT==='gr'?'all':'gr';render()">
+            <div class="tl-l"><span class="tl-dot" style="background:#22C55E"></span>Работают ровно</div>
+            <div class="tl-n num">${cGr} машин</div>
+          </button>
+          <button class="tl-pill ${LIGHT_FILT==='yel'?'on':''}" onclick="LIGHT_FILT=LIGHT_FILT==='yel'?'all':'yel';render()">
+            <div class="tl-l"><span class="tl-dot" style="background:#F59E0B"></span>Стоят / жгут зря</div>
+            <div class="tl-n num">${cYel} машины</div>
+          </button>
+          <button class="tl-pill ${LIGHT_FILT==='red'?'on':''}" onclick="LIGHT_FILT=LIGHT_FILT==='red'?'all':'red';render()">
+            <div class="tl-l"><span class="tl-dot" style="background:#EF4444"></span>Сливы / беда / левак</div>
+            <div class="tl-n num">${cRed} машины</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- БЛОК «РАЗБЕРИСЬ С ЭТИМ СЕЙЧАС» -->
+      ${probs.length && LIGHT_FILT==='all' ? `<div class="card">
+        <div class="sec-title"><span>Разберись с этим сейчас</span><small>Нажми на строку — откроется бак и детали</small></div>
+        <div class="prob-list">
+          ${probs.map(m => {
+            const c = calc(m);
+            const isR = m.level === 'red';
+            return `<div class="prob-item ${isR?'red':'yel'}" onclick="openSheet('${m.id}')">
+              <div class="prob-ic ${isR?'red':'yel'}">
+                <svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="prob-main">
+                <div class="prob-h">${m.name} — ${m.status}</div>
+                <div class="prob-p">${m.driver} · ${m.place}</div>
+              </div>
+              <div class="prob-rub num">${m.slivL ? `−${f(c.slivRub)} ₽<small>слив ${m.slivL} л</small>` : (c.profit<0 ? `−${f(Math.abs(c.profit))} ₽<small>в минусе</small>` : `${f(m.idleH,1)} ч<small>впустую</small>`)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>` : ''}
+
+      <!-- КАРТОЧКИ КАЖДОЙ МАШИНЫ (С БАКОМ И ДЕНЬГАМИ) -->
+      <div>
+        <div class="sec-title" style="padding:0 4px">
+          <span>Вся техника (${vis.length}) ${LIGHT_FILT!=='all'?'· фильтр включён':''}</span>
+          ${LIGHT_FILT!=='all'?`<button class="pill-btn" style="height:30px;font-size:12px" onclick="LIGHT_FILT='all';render()">Показать всех</button>`:'<small>Нажми на любую машину → чек и звонок водителю</small>'}
+        </div>
+        <div class="m-grid">
+          ${vis.map(m => {
+            const c = calc(m);
+            const bCls = m.level==='gr'?'mb-gr':(m.level==='yel'?'mb-yl':'mb-rd');
+            return `<div class="m-card" onclick="openSheet('${m.id}')">
+              <div class="m-top">
+                <div>
+                  <div class="m-title">${m.name}</div>
+                  <div class="m-sub">${m.driver} · ${m.place}</div>
+                </div>
+                <span class="m-badge ${bCls}">${m.status}</span>
+              </div>
+
+              <div class="m-mid">
+                ${fuelTankHtml(m, c, false)}
+                <div class="day-info">
+                  <div class="day-line"><span>Сделал за смену</span><b>${m.doneText}</b></div>
+                  <div class="day-line"><span>Работал / стоял заведён</span><b class="num">${f(m.workH,1)} ч / <span style="color:${m.idleH>=2.5?'var(--yl)':'var(--tx)'}">${f(m.idleH,1)} ч</span></b></div>
+                  <div class="day-strip">
+                    <div class="ds-w" style="width:${(m.workH/12*100).toFixed(1)}%"></div>
+                    <div class="ds-i" style="width:${(m.idleH/12*100).toFixed(1)}%"></div>
+                    <div class="ds-o" style="width:${(m.offH/12*100).toFixed(1)}%"></div>
+                    <div class="ds-d" style="width:${(m.downH/12*100).toFixed(1)}%"></div>
+                  </div>
+                  <div style="font-size:11.5px;color:${m.slivL?'var(--rd)':'var(--mu)'}">
+                    ${m.slivL ? `<b>Красный кусок в баке — слили ${m.slivL} л (−${f(c.slivRub)} ₽)</b>` : (m.offH ? `В тайге без связи ${f(m.offH,1)} ч · запись загружена` : `В баке ${m.tankNow} из ${m.tankCap} л · сжёг ${m.burnedL} л`)}
+                  </div>
+                </div>
+              </div>
+
+              <div class="m-foot">
+                <div class="m-foot-l">Чистыми за вчера:</div>
+                <div class="m-foot-r num" style="color:${c.profit>=0?'var(--gr)':'var(--rd)'}">${c.profit>=0?'+':'−'}${f(Math.abs(c.profit))} ₽</div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  else if (TAB === 'map') {
+    root.innerHTML = `
+      <div class="card">
+        <div class="sec-title"><span>Где сейчас вся техника</span><small>Нажми на любую точку — откроется машина и бак</small></div>
+        <div class="s-map">
+          <svg viewBox="0 0 860 380">
+            <rect x="45" y="45" width="265" height="225" rx="22" fill="var(--or-s)" stroke="var(--or)" stroke-dasharray="6 5"/>
+            <text x="65" y="75" fill="var(--tx)" font-size="14" font-weight="800">Карьер</text>
+            <text x="65" y="94" fill="var(--mu)" font-size="11.5">Самосвалы и экскаваторы</text>
+
+            <rect x="575" y="32" width="245" height="150" rx="22" fill="var(--gr-s)" stroke="var(--gr)" stroke-dasharray="6 5"/>
+            <text x="595" y="60" fill="var(--tx)" font-size="14" font-weight="800">Тайга · Деляна №4</text>
+            <text x="595" y="79" fill="var(--mu)" font-size="11.5">Связи нет — данные приходят на базе</text>
+
+            <rect x="375" y="210" width="245" height="135" rx="22" fill="var(--bl-s)" stroke="var(--bl)" stroke-dasharray="6 5"/>
+            <text x="395" y="238" fill="var(--tx)" font-size="14" font-weight="800">Стройка «Южная»</text>
+            <text x="395" y="257" fill="var(--mu)" font-size="11.5">Экскаваторы и манипуляторы</text>
+
+            <rect x="680" y="255" width="140" height="90" rx="18" fill="var(--rd-s)" stroke="var(--rd)"/>
+            <text x="702" y="285" fill="var(--rd)" font-size="13" font-weight="800">Рембаза</text>
+
+            ${MACHINES.map(m => {
+              const col = m.level==='red'?'#DC2626':(m.level==='yel'?'#D97706':'#16A34A');
+              return `<g style="cursor:pointer" onclick="openSheet('${m.id}')">
+                <circle cx="${m.mx}" cy="${m.my}" r="18" fill="${col}" opacity=".18"/>
+                <circle cx="${m.mx}" cy="${m.my}" r="11" fill="${col}" stroke="#fff" stroke-width="2.5"/>
+                <rect x="${m.mx-26}" y="${m.my-31}" width="52" height="18" rx="6" fill="var(--card)" stroke="${col}"/>
+                <text x="${m.mx}" y="${m.my-18}" text-anchor="middle" fill="var(--tx)" font-size="10.5" font-weight="800">${m.id}</text>
+              </g>`;
+            }).join('')}
+          </svg>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--mu)">
+          <span><b style="color:var(--gr)">●</b> Работает ровно</span>
+          <span><b style="color:var(--yl)">●</b> Долго стоит заведённый</span>
+          <span><b style="color:var(--rd)">●</b> Слив солярки / чужой объект / рембаза</span>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (TAB === 'prices') {
+    root.innerHTML = `
+      <div class="card">
+        <div class="sec-title"><span>Наши расценки (задаёшь один раз)</span><small>Поменяй любую цифру — деньги сразу пересчитаются</small></div>
+        <div class="price-row">
+          <div><b>Цена солярки</b><div style="font-size:12px;color:var(--mu)">Сколько стоит 1 литр дизеля</div></div>
+          <input type="number" class="price-inp num" value="${RATES.diesel}" onchange="RATES.diesel=+this.value||70;toast('Солярка обновлена — всё пересчитано');render()" />
+        </div>
+        <div class="price-row">
+          <div><b>Самосвалы — за 1 тонну</b><div style="font-size:12px;color:var(--mu)">Сколько платит заказчик за тонну</div></div>
+          <input type="number" class="price-inp num" value="${RATES.dumpTon}" onchange="RATES.dumpTon=+this.value||185;toast('Пересчитано');render()" />
+        </div>
+        <div class="price-row">
+          <div><b>Экскаваторы — за 1 час работы</b><div style="font-size:12px;color:var(--mu)">Ставка за час реальной копки</div></div>
+          <input type="number" class="price-inp num" value="${RATES.excHour}" onchange="RATES.excHour=+this.value||4600;toast('Пересчитано');render()" />
+        </div>
+        <div class="price-row">
+          <div><b>Манипуляторы — за 1 час</b><div style="font-size:12px;color:var(--mu)">Ставка за час работы КМУ</div></div>
+          <input type="number" class="price-inp num" value="${RATES.craneHour}" onchange="RATES.craneHour=+this.value||3200;toast('Пересчитано');render()" />
+        </div>
+        <div class="price-row">
+          <div><b>Лесники — за 1 куб леса (м³)</b><div style="font-size:12px;color:var(--mu)">Вывозка и заготовка с деляны</div></div>
+          <input type="number" class="price-inp num" value="${RATES.forestM3}" onchange="RATES.forestM3=+this.value||1150;toast('Пересчитано');render()" />
+        </div>
+      </div>
+    `;
+  }
+
+  else if (TAB === 'tg') {
+    const msg = `Доброе утро! Итоги за вчера (20.11):\n\nВ кармане чистыми: ${totProf>=0?'+':'−'}${f(Math.abs(totProf))} ₽\nПришло ${f(totRev)} ₽ · Ушло ${f(totOut)} ₽\n\nС чем надо разобраться (3):\n1. SHACMAN №17 (Шубин) — ночью слили 85 л солярки (−${f(85*RATES.diesel)} ₽) + поломка КПП.\n2. Лесовоз КАМАЗ №02 (Бобров) — в тайге на деляне слили 65 л (−${f(65*RATES.diesel)} ₽), запись пришла вечером на базе.\n3. Манипулятор Hino (Киселёв) — днём уехал в чужую промзону и 2,5 ч крутил стрелой без заявки.\n\nОстальные 5 машин отработали ровно.`;
+    root.innerHTML = `
+      <div class="tg-card">
+        <div style="display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--bd);margin-bottom:12px">
+          <div class="brand-ic" style="border-radius:50%;width:36px;height:36px">Ш</div>
+          <div><b style="font-size:14px">ВАШ ШТАБ · Утренний отчёт</b><div style="font-size:12px;color:var(--gr);font-weight:700">приходит сам в 07:00 утра</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="tg-msg num">${msg}</div>
+          ${TG_EXTRA}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+          <button class="pill-btn" style="justify-content:center" onclick="tgAsk('sliv')">Кто слил солярку?</button>
+          <button class="pill-btn" style="justify-content:center" onclick="tgAsk('idle')">Кто стоял без дела?</button>
+          <button class="pill-btn" style="justify-content:center" onclick="tgAsk('best')">Кто лучше всех?</button>
+          <button class="pill-btn" style="justify-content:center" onclick="TG_EXTRA='';render()">Очистить</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function tgAsk(k) {
+  let q='', a='';
+  if (k==='sliv') { q='Кто слил солярку?'; a=`• SHACMAN №17 (Шубин): −85 л в 03:14, промзона (−${f(85*RATES.diesel)} ₽)\n• Лесовоз КАМАЗ №02 (Бобров): −65 л на деляне в тайге (−${f(65*RATES.diesel)} ₽)`; }
+  else if (k==='idle') { q='Кто стоял без дела?'; a='• Экскаватор Komatsu (Зотов): 5,2 ч молотил впустую (69 л солярки в трубу)\n• Самосвал HOWO №06 (Мухин): 3,8 ч стоял в очереди у экскаватора'; }
+  else { q='Кто лучше всех?'; a='• SHACMAN №01 (Ковалёв): 23 рейса, принёс +52 800 ₽ чистыми\n• Харвестер Ponsse (Коршунов): 112 кубов леса, +27 670 ₽\n• Экскаватор CAT 320 (Громов): 10,6 ч копки без простоев'; }
+  TG_EXTRA = `<div class="tg-me">${q}</div><div class="tg-msg num">${a}</div>`;
+  render();
+}
+
+function exportCsv() {
+  const h = 'Машина;Водитель;Где;Статус;Сделал;В_баке_л;Сжёг_л;Слили_л;Чистыми_руб';
+  const rows = [h].concat(MACHINES.map(m => { const c=calc(m); return [m.name,m.driver,m.place,m.status,m.doneText,m.tankNow,m.burnedL,m.slivL,Math.round(c.profit)].join(';'); }));
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8'}));
+  a.download = 'vash_shtab_otchet.csv'; a.click();
+  toast('Список для Excel скачан');
+}
+
+render();
+</script>
+</body>
+</html>
